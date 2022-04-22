@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Gastos - By Alyson S.</title>
+</head>
+<style>
+    *{
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 550;
+        margin: 0;
+        padding: 0;
+        color: #fff
+    }
+    body{
+        background: #272727;
+    }
+    header{
+        position: sticky;
+         top:0;
+         background: #0000009d;
+         padding: 1rem;
+         display: flex;
+         flex-wrap: wrap;
+         text-align: center;
+    }
+    h1{
+        margin: .5rem auto 1rem auto;
+        text-align: center;
+        color:#2ebeb7;
+    }
+    h1::after{
+        content:"";
+        display: block;
+        width:2.5rem;
+        height: .18rem;
+        background-color: #2ebeb7;
+        margin: auto;
+    }
+    input{
+        margin: .1rem;
+        color: #181717;
+        border: none;
+        border-radius: .2rem;
+        padding: .5rem;
+    }
+    .cadastro{
+        margin: auto;
+    }
+    .listaProdutoSozinho{
+        margin: 1rem auto;
+        text-align: center;
+    }
+    hr{
+        width: 30%;
+        margin: .5rem auto;
+    }
+    .preco{
+        background: #2ebeb7;
+        width: 6rem;
+        padding: .2rem .1rem;
+        margin: .5rem auto;
+        border-radius: .4rem;
+        cursor: pointer;
+    }
+    .total{
+        margin: 1rem auto;
+        text-align: center;
+        font-size: 1.4rem;
+    }
+    .adicionarRemoverProdutos{
+        margin: .8rem auto;
+    }
+    .adicionarProduto{
+        background: #44f820;
+        padding: .25rem .5rem;
+        margin: 1rem .4rem;
+        border-radius: 50%;
+        box-sizing:border-box;
+        cursor: pointer;
+    }
+    .removerProduto{
+        background: #f82020;
+        padding: .25rem .6rem;
+        margin: 1rem .4rem;
+        border-radius: 50%;
+        box-sizing:border-box;
+        cursor: pointer;
+    }
+    @media screen and (max-width: 550px){
+        input{
+            margin: .8rem auto;
+        }
+    }
+</style>
+<body>
+    <header>
+        <h1>Lista de Gastos</h1>
+        <div class="cadastro">
+            <input type="text" name="nomeProduto" placeholder="Nome do produto"/>
+            <input type="number" name="precoProduto" placeholder="Preço do produto" step="0.01"/>
+            <input style="padding: .3rem .8rem; border-radius: .3rem; border: solid 1px #2ebeb7; background: none; color: #fff; font-weight: 100; cursor: pointer;" type="submit" value="Cadastrar"/>
+            <input style="padding: .3rem .8rem; border-radius: .3rem; border: solid 1px #be2e2e; background: none; color: #fff; font-weight: 100; cursor: pointer;" type="submit" name="remover" value="Limpar"/>
+        </div>
+</header>
+    <div class="listaProdutos" style="margin-top: 1rem;" >
+    
+    </div>
+    <div class="total"><h3>Total: R$ 0,00</h3></div>
+    <script>
+        var produtos= []
+        var submit = document.querySelector("input[type=submit]")
+
+        submit.addEventListener('click',()=>{
+        var nomeProduto = document.querySelector("input[name='nomeProduto']")
+        var precoProduto = document.querySelector("input[name='precoProduto']")
+
+        produtos.push({
+            nome: nomeProduto.value,
+            preco: precoProduto.value
+        })
+        console.log(produtos)
+
+        let lista = document.querySelector('.listaProdutos')
+
+        let soma = 0; 
+
+        lista.innerHTML=""
+
+        produtos.map((value)=>{
+            soma+=parseFloat(value.preco)
+
+            /*
+            <div class="adicionarRemoverProdutos"><span class="adicionarProduto" onclick="addOUremProdutos('adicionar')">+</span><span class="removerProduto" onclick="addOUremProdutos('remover')">-</span></div>
+            */
+
+            lista.innerHTML+=`
+        <div class="listaProdutoSozinho">
+            <h2>`+value.nome+`</h2>
+            <h3 class="preco"><span>R$ `+value.preco+`</span></h3>
+            <hr>
+        </div>
+        `
+        })
+
+            soma=soma.toFixed(2)
+            nomeProduto.value=""
+            precoProduto.value=""
+
+            let total = document.querySelector('.total > h3')
+
+            total.innerHTML='Total: R$'+soma
+
+            document.querySelector('input[name=remover]').addEventListener('click',()=>{
+                produtos = []
+                total.innerHTML="Total: R$ 0,00"
+                lista.innerHTML=""
+                
+            })
+            
+        })
+
+        
+
+    </script>
+</body>
+</html>
